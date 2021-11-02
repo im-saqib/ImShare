@@ -5,7 +5,11 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import firebase from "firebase";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { fetchUser, fetchUserPosts } from "../redux/actions/index";
+import {
+  fetchUser,
+  fetchUserPosts,
+  fetchUserFollowing,
+} from "../redux/actions/index";
 
 import FeedScreen from "./main/Feed";
 import ProfileScreen from "./main/Profile";
@@ -21,6 +25,7 @@ export class Main extends Component {
     // console.log(this.props);
     this.props.fetchUser();
     this.props.fetchUserPosts();
+    this.props.fetchUserFollowing();
   }
   render() {
     return (
@@ -97,5 +102,8 @@ const mapStateToProps = (store) => ({
   currentUser: store.userState.currentUser,
 });
 const mapDispatchProps = (dispatch) =>
-  bindActionCreators({ fetchUser, fetchUserPosts }, dispatch);
+  bindActionCreators(
+    { fetchUser, fetchUserPosts, fetchUserFollowing },
+    dispatch
+  );
 export default connect(mapStateToProps, mapDispatchProps)(Main);

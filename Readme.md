@@ -2,4 +2,4 @@
 
 > Share Pictures and follow other people
 
-## Created with React Native and Firebase
+## Created with React Native, Redux and Firebase
