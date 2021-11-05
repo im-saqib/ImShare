@@ -15,12 +15,13 @@ const styles = StyleSheet.create({
   root: {
     // paddingTop: StatusBar.currentHeight,
     padding: 5,
+    paddingBottom: 150,
   },
   containerInfo: {
     margin: 10,
   },
   containerGallery: {
-    margin: 10,
+    flex: 1,
   },
   containerImage: {
     flex: 1 / 3,
@@ -95,6 +96,9 @@ function Profile(props) {
       .doc(props.route.params.uid)
       .delete();
   };
+  const onSignOut = () => {
+    firebase.auth().signOut();
+  };
 
   if (user == null) {
     return <View />;
@@ -111,21 +115,26 @@ function Profile(props) {
               <Button title='Follow' onPress={() => onFollow()} />
             )}
           </View>
-        ) : null}
-      </View>
-      {/* <View style={styles.containerGallery}> */}
-      <FlatList
-        numColumns={3}
-        horizontal={false}
-        data={userPosts}
-        renderItem={({ item }) => (
-          <View style={styles.containerImage}>
-            <Image style={styles.image} source={{ uri: item.downloadURL }} />
-            <Text>{item.caption}</Text>
-          </View>
+        ) : (
+          <Button title='SignOut' onPress={() => onSignOut()} />
         )}
-      />
-      {/* </View> */}
+      </View>
+      <View>
+        <FlatList
+          numColumns={2}
+          horizontal={false}
+          data={userPosts}
+          renderItem={({ item }) => (
+            // <View style={{ flex: 1 / 3 }}>
+            //   <Text>This is item 1</Text>
+            // </View>
+            <View style={{ flex: 1 / 2 }}>
+              <Image style={styles.image} source={{ uri: item.downloadURL }} />
+              <Text>{item.caption}</Text>
+            </View>
+          )}
+        />
+      </View>
     </View>
   );
 }

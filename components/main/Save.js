@@ -7,7 +7,7 @@ require("firebase/firebase-storage");
 import styles from "../../style/styles";
 
 export default function Save(props) {
-  // console.log(props.route.params.image);
+  // console.log(props.navigation);
   const [caption, setCaption] = useState("");
   const uploadImage = async () => {
     const uri = props.route.params.image;
@@ -22,12 +22,12 @@ export default function Save(props) {
     const task = firebase.storage().ref().child(childPath).put(blob);
 
     const taskProgress = (snapshot) => {
-      console.log(`Transfered: ${snapshot.bytesTransferred}`);
+      // console.log(`Transfered: ${snapshot.bytesTransferred}`);
     };
 
     const taskCompleted = () => {
       task.snapshot.ref.getDownloadURL().then((snapshot) => {
-        console.log("File uploaded");
+        // console.log("File uploaded");
         savePostData(snapshot);
       });
     };
@@ -51,7 +51,7 @@ export default function Save(props) {
       .then(() => {
         props.navigation.popToTop();
       });
-    console.log("Post created");
+    // console.log("Post created");
   };
   return (
     <View style={styles.root}>
