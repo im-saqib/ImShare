@@ -14,18 +14,14 @@ import firebase from "firebase";
 const styles = StyleSheet.create({
   root: {
     // paddingTop: StatusBar.currentHeight,
+    flex: 1,
     padding: 5,
-    paddingBottom: 150,
+    // paddingBottom: 150,
   },
   containerInfo: {
     margin: 10,
   },
-  containerGallery: {
-    flex: 1,
-  },
-  containerImage: {
-    flex: 1 / 3,
-  },
+  flatList: { display: "flex", flexDirection: "column", height: "100%" },
   image: {
     flex: 1,
     aspectRatio: 1 / 1,
@@ -34,6 +30,7 @@ const styles = StyleSheet.create({
 });
 
 function Profile(props) {
+  // console.log(props);
   const [userPosts, setUserPosts] = useState([]);
   const [user, setUser] = useState(null);
   const [following, setFollowing] = useState(false);
@@ -119,22 +116,18 @@ function Profile(props) {
           <Button title='SignOut' onPress={() => onSignOut()} />
         )}
       </View>
-      <View>
-        <FlatList
-          numColumns={2}
-          horizontal={false}
-          data={userPosts}
-          renderItem={({ item }) => (
-            // <View style={{ flex: 1 / 3 }}>
-            //   <Text>This is item 1</Text>
-            // </View>
-            <View style={{ flex: 1 / 2 }}>
-              <Image style={styles.image} source={{ uri: item.downloadURL }} />
-              <Text>{item.caption}</Text>
-            </View>
-          )}
-        />
-      </View>
+      <FlatList
+        numColumns={2}
+        horizontal={false}
+        data={userPosts}
+        style={styles.flatList}
+        renderItem={({ item }) => (
+          <View style={{ flex: 1 / 2 }}>
+            <Image style={styles.image} source={{ uri: item.downloadURL }} />
+            <Text>{item.caption}</Text>
+          </View>
+        )}
+      />
     </View>
   );
 }

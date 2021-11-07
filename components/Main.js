@@ -9,11 +9,13 @@ import {
   fetchUser,
   fetchUserPosts,
   fetchUserFollowing,
+  clearData,
 } from "../redux/actions/index";
 
 import FeedScreen from "./main/Feed";
 import ProfileScreen from "./main/Profile";
 import SearchScreen from "./main/Search";
+import ChatScreen from "./main/Chat";
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -22,6 +24,7 @@ const EmptyScreen = () => {
 };
 export class Main extends Component {
   componentDidMount() {
+    this.props.clearData();
     // console.log(this.props);
     this.props.fetchUser();
     this.props.fetchUserPosts();
@@ -73,6 +76,25 @@ export class Main extends Component {
           }}
         />
         <Tab.Screen
+          name='Chat'
+          component={ChatScreen}
+          listeners={({ navigation }) => ({
+            tabPress: (event) => {
+              event.preventDefault();
+              navigation.navigate("Chat");
+            },
+          })}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons
+                name='chat-processing'
+                color={color}
+                size={26}
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
           name='Profile'
           component={ProfileScreen}
           listeners={({ navigation }) => ({
@@ -103,7 +125,7 @@ const mapStateToProps = (store) => ({
 });
 const mapDispatchProps = (dispatch) =>
   bindActionCreators(
-    { fetchUser, fetchUserPosts, fetchUserFollowing },
+    { fetchUser, fetchUserPosts, fetchUserFollowing, clearData },
     dispatch
   );
 export default connect(mapStateToProps, mapDispatchProps)(Main);
