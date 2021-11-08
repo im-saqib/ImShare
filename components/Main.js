@@ -76,8 +76,8 @@ export class Main extends Component {
           }}
         />
         <Tab.Screen
-          name='Chat'
-          component={ChatScreen}
+          name='ChatRoom'
+          component={EmptyScreen}
           listeners={({ navigation }) => ({
             tabPress: (event) => {
               event.preventDefault();
