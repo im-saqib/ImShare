@@ -18,7 +18,9 @@ import RegisterScreen from "./components/auth/Register";
 import LoginScreen from "./components/auth/Login";
 import MainScreen from "./components/Main";
 import AddScreen from "./components/main/Add";
+import ChatScreen from "./components/main/Chat";
 import SaveScreen from "./components/main/Save";
+import CommentScreen from "./components/main/Comment";
 
 import {
   API_KEY,
@@ -80,8 +82,8 @@ export default class App extends Component {
       return (
         <Provider store={store}>
           <NavigationContainer>
-            <Stack.Navigator initialRouteName='Main'>
-              <Stack.Screen name='Main' component={MainScreen} />
+            <Stack.Navigator initialRouteName='ImShare'>
+              <Stack.Screen name='ImShare' component={MainScreen} />
               <Stack.Screen
                 name='Add'
                 component={AddScreen}
@@ -90,6 +92,16 @@ export default class App extends Component {
               <Stack.Screen
                 name='Save'
                 component={SaveScreen}
+                navigation={this.props.navigation}
+              />
+              <Stack.Screen
+                name='Chat'
+                component={ChatScreen}
+                navigation={this.props.navigation}
+              />
+              <Stack.Screen
+                name='Comment'
+                component={CommentScreen}
                 navigation={this.props.navigation}
               />
             </Stack.Navigator>

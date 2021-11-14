@@ -67,13 +67,13 @@ export function fetchUserFollowing() {
         // console.log(posts);
         dispatch({ type: USER_FOLLOWING_STATE_CHANGE, following });
         for (let i = 0; i < following.length; i++) {
-          dispatch(fetchUsersData(following[i]));
+          dispatch(fetchUsersData(following[i], true));
         }
       });
   };
 }
 
-export function fetchUsersData(uid) {
+export function fetchUsersData(uid, getPosts) {
   return (dispatch, getState) => {
     const found = getState().usersState.users.some((el) => el.uid === uid);
     if (!found) {
@@ -84,15 +84,17 @@ export function fetchUsersData(uid) {
         .get()
         .then((snapshot) => {
           if (snapshot.exists) {
-            // console.log(snapshot.data());
             let user = snapshot.data();
             user.uid = snapshot.id;
+            // console.log(user);
             dispatch({ type: USERS_DATA_STATE_CHANGE, user });
-            dispatch(fetchUsersFollowingPosts(uid));
           } else {
             console.log("User does not exist or no data found");
           }
         });
+      if (getPosts) {
+        dispatch(fetchUsersFollowingPosts(uid));
+      }
     }
   };
 }

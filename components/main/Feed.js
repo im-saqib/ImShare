@@ -32,7 +32,7 @@ function Feed(props) {
   useEffect(() => {
     let postsFetched = [];
     if (
-      (props.usersLoaded == props.following.length) !== 0 &&
+      (props.usersFollowedLoaded == props.following.length) !== 0 &&
       props.following.length
     ) {
       for (let i = 0; i < props.following.length; i++) {
@@ -46,7 +46,7 @@ function Feed(props) {
       });
       setPosts(postsFetched);
     }
-  }, [props.usersLoaded]);
+  }, [props.usersFollowedLoaded]);
 
   if (posts == null) {
     return (
@@ -66,6 +66,16 @@ function Feed(props) {
             <Image style={styles.image} source={{ uri: item.downloadURL }} />
             <Text>{item.caption}</Text>
             <Text>Uploaded by {item.user.name}</Text>
+            <Text
+              onPress={() =>
+                props.navigation.navigate("Comment", {
+                  postId: item.id,
+                  uid: item.user.uid,
+                })
+              }
+            >
+              View comments
+            </Text>
           </View>
         )}
       />
@@ -77,6 +87,7 @@ const mapStateToProps = (store) => ({
   currentUser: store.userState.currentUser,
   following: store.userState.following,
   users: store.usersState.users,
-  usersLoaded: store.usersState.usersLoaded,
+  usersFollowedLoaded: store.usersState.usersFollowedLoaded,
+  contacts: store.usersState.contacts,
 });
 export default connect(mapStateToProps, null)(Feed);

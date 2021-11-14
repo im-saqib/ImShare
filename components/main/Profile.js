@@ -31,12 +31,13 @@ const styles = StyleSheet.create({
 
 function Profile(props) {
   // console.log(props);
+  const uid = firebase.auth().currentUser.uid;
   const [userPosts, setUserPosts] = useState([]);
   const [user, setUser] = useState(null);
   const [following, setFollowing] = useState(false);
   useEffect(() => {
     const { currentUser, posts, uid } = props;
-    if (props.route.params.uid === firebase.auth().currentUser.uid) {
+    if (props.route.params.uid === uid) {
       setUser(currentUser);
       setUserPosts(posts);
     } else {
@@ -79,7 +80,7 @@ function Profile(props) {
     firebase
       .firestore()
       .collection("following")
-      .doc(firebase.auth().currentUser.uid)
+      .doc(uid)
       .collection("userFollowing")
       .doc(props.route.params.uid)
       .set({});
@@ -88,10 +89,29 @@ function Profile(props) {
     firebase
       .firestore()
       .collection("following")
-      .doc(firebase.auth().currentUser.uid)
+      .doc(uid)
       .collection("userFollowing")
       .doc(props.route.params.uid)
       .delete();
+  };
+  const onMessage = () => {
+    addContactList();
+    firebase
+      .firestore()
+      .collection("chats")
+      .doc(uid)
+      .collection("private")
+      .doc(props.route.params.uid)
+      .set({});
+  };
+  const addContactList = async () => {
+    await firebase
+      .firestore()
+      .collection("contacts")
+      .doc(uid)
+      .collection("userContacts")
+      .doc(props.route.params.uid)
+      .set({});
   };
   const onSignOut = () => {
     firebase.auth().signOut();
@@ -104,13 +124,18 @@ function Profile(props) {
     <View style={styles.root}>
       <View style={styles.containerInfo}>
         <Text>{user.name}</Text>
-        {props.route.params.uid !== firebase.auth().currentUser.uid ? (
+        {props.route.params.uid !== uid ? (
           <View>
             {following ? (
-              <Button title='Following' onPress={() => onUnFollow()} />
+              <>
+                <Button title='Following' onPress={() => onUnFollow()} />
+              </>
             ) : (
-              <Button title='Follow' onPress={() => onFollow()} />
+              <>
+                <Button title='Follow' onPress={() => onFollow()} />
+              </>
             )}
+            <Button title='Message' onPress={() => addContactList()} />
           </View>
         ) : (
           <Button title='SignOut' onPress={() => onSignOut()} />

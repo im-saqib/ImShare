@@ -16,6 +16,7 @@ import FeedScreen from "./main/Feed";
 import ProfileScreen from "./main/Profile";
 import SearchScreen from "./main/Search";
 import ChatScreen from "./main/Chat";
+// import ChatRoom from "./main/ChatRoom";
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -76,7 +77,7 @@ export class Main extends Component {
           }}
         />
         <Tab.Screen
-          name='ChatRoom'
+          name='Chats'
           component={EmptyScreen}
           listeners={({ navigation }) => ({
             tabPress: (event) => {

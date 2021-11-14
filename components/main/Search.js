@@ -27,7 +27,7 @@ export default function Search(props) {
       });
   };
   return (
-    <View>
+    <View style={{ margin: 8 }}>
       <TextInput
         placeholder='Search here..'
         onChangeText={(search) => fetchUsers(search)}
@@ -37,13 +37,37 @@ export default function Search(props) {
         horizontal={false}
         data={users}
         renderItem={({ item }) => (
-          <TouchableOpacity
-            onPress={() =>
-              props.navigation.navigate("Profile", { uid: item.id })
-            }
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              margin: 10,
+            }}
           >
             <Text>{item.name}</Text>
-          </TouchableOpacity>
+            <View
+              style={{
+                flexDirection: "row",
+              }}
+            >
+              <TouchableOpacity
+                onPress={() =>
+                  props.navigation.navigate("Profile", { uid: item.id })
+                }
+                style={{ marginRight: 10 }}
+              >
+                <Text>View</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() =>
+                  props.navigation.navigate("Chat", { uid: item.id })
+                }
+                style={{ display: "flex" }}
+              >
+                <Text>Chat</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         )}
       />
     </View>
